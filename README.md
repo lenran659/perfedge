@@ -1,36 +1,13 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PerfEdge | 前端性能优化知识库
 
-## Getting Started
+## 介绍
 
-First, run the development server:
+PerfEdge 是一个专注于前端性能优化的知识库，旨在帮助开发者更好地理解和使用前端性能优化技术，提高网站和应用的用户体验。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 贡献
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+欢迎提交 Pull Request 或 Issue，共同完善 PerfEdge 知识库。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 许可
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+PerfEdge 知识库采用 MIT 许可证。
