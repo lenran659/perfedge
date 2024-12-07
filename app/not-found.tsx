@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import QASelect from "@/components/qaSelect";
+import QASelect from "@/components/qa/qaSelect";
 
 const NotFound = () => {
   return (

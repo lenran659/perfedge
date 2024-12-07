@@ -6,7 +6,7 @@ import { useRef, useState } from "react";
 import { motion } from "motion/react";
 import { Github } from "lucide-react";
 
-const bgColor = [
+const bgColor: Array<`bg-${string}-50`> = [
   "bg-gray-50",
   "bg-blue-50",
   "bg-green-50",
@@ -35,7 +35,7 @@ const Home = () => {
     <main
       className={`will-change-auto duration-300 select-none w-screen h-screen gap-24 flex justify-center items-center ${bg}`}
     >
-      <audio ref={audioRef} src="/audio/muyu.mp3"></audio>
+      <audio ref={audioRef} src="/audio/click.mp3"></audio>
       <motion.img
         onClick={handlePlay}
         initial={{ opacity: 0, x: -300 }}
@@ -46,7 +46,7 @@ const Home = () => {
           damping: 20,
         }}
         whileTap={{ scale: 0.9 }}
-        whileHover={{ scale: 1.1 }}
+        whileHover={{ scale: 1.1, rotate: 45, x: -150, y: -100 }}
         src="/logo.png"
         alt="logo"
         className="h-[50vh] w-auto z-10 cursor-pointer"
@@ -100,7 +100,7 @@ const Home = () => {
             className="shadow-lg shadow-primary rounded-md"
           >
             <Link
-              href="/main"
+              href="/docs"
               className="text-xl bg-primary text-white flex items-center px-4 py-2 rounded-md hover:bg-primary-dark transition-colors duration-300"
             >
               开始
