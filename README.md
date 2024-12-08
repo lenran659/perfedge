@@ -2,7 +2,7 @@
 
 ## 介绍
 
-![logo](./public/logo.png)
+![logo](public/logo.png)
 
 PerfEdge 是一个专注于前端性能优化的知识库，旨在帮助开发者更好地理解和使用前端性能优化技术，提高网站和应用的用户体验。
 
