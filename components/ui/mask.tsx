@@ -16,16 +16,12 @@ const Mask: React.FC<MaskProps> = ({ children, setShowMask }) => {
   return (
     <motion.div
       onClick={handleClose}
-      initial={{ opacity: 0, scale: 0 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{
-        opacity: 0.5,
-        scale: 0.8,
-      }}
-      transition={{ duration: 0.5, ease: "easeInOut", type: "spring" }}
       className="fixed w-screen h-screen z-50 flex items-center justify-center bg-primary bg-opacity-50"
     >
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, ease: "easeInOut", type: "spring" }}
         onClick={(e) => e.stopPropagation()}
         className="w-2/3 h-2/3 bg-white rounded-xl flex items-center justify-center relative"
       >
@@ -40,7 +36,7 @@ const Mask: React.FC<MaskProps> = ({ children, setShowMask }) => {
           />
         </motion.span>
         {children}
-      </div>
+      </motion.div>
     </motion.div>
   );
 };
