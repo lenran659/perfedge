@@ -43,10 +43,7 @@ const NotFound = () => {
         transition={{
           type: "spring",
         }}
-        whileTap={{
-          scale: 0.8,
-        }}
-        className="shadow-xl shoadw-primary text-2xl"
+        className="text-2xl flex gap-4"
       >
         <Link
           href="/"
@@ -54,6 +51,12 @@ const NotFound = () => {
         >
           返回首页
         </Link>
+        <div
+          onClick={() => window.history.back()}
+          className="mt-6 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark duration-300 cursor-pointer"
+        >
+          返回前一页
+        </div>
       </motion.span>
 
       <QASelect
