@@ -13,26 +13,29 @@ const customComponents: MDXComponents = {
   h4: ({ children }) => (
     <h4 className="text-xl font-bold text-primary">{children}</h4>
   ),
-  p: ({ children }) => <p className="text-lg text-primary">{children}</p>,
+  strong: ({ children }) => (
+    <strong className="font-bold text-p">{children}</strong>
+  ),
+  p: ({ children }) => <p className="text-lg text-p">{children}</p>,
   ul: ({ children }) => <ul className="list-disc pl-4">{children}</ul>,
   ol: ({ children }) => <ol className="list-decimal pl-4">{children}</ol>,
-  li: ({ children }) => <li className="text-lg text-primary">{children}</li>,
+  li: ({ children }) => <li className="text-lg text-p">{children}</li>,
   a: ({ children, href }) => (
-    <a href={href} className="text-blue-500 hover:underline">
+    <a href={href} className="text-primary hover:underline">
       {children}
     </a>
   ),
   blockquote: ({ children }) => (
-    <blockquote className="border-l-4 pl-4 text-gray-500">
+    <blockquote className="border-l-4 border-primary pl-4 font-thin">
       {children}
     </blockquote>
   ),
   pre: ({ children }) => (
     <pre className="bg-gray-800 p-4 text-white">{children}</pre>
   ),
-  code: ({ children }) => (
-    <code className="bg-gray-800 p-1 text-white">{children}</code>
-  ),
+  code: ({ children }) => {
+    return <code className="bg-gray-800 p-1 text-white">{children}</code>;
+  },
   img: ({ src, alt }) => (
     <img src={src} alt={alt} className="max-w-full rounded-lg w-96" />
   ),

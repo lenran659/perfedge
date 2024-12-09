@@ -10,12 +10,8 @@ export const tocdata: Toc[] = [
         href: "/preface",
         list: [
             {
-                title: "关于",
-                href: "/about",
-            },
-            {
                 title: "贡献指南",
-                href: "/contributeGuide",
+                href: "/contribute",
             },
         ],
     },

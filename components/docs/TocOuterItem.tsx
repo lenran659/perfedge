@@ -31,7 +31,7 @@ const TocOuterItem: React.FC<TocOuterItemProps> = ({ title, href, list }) => {
             >
               <Link
                 href={"/docs" + href + item.href}
-                className="pl-4 text-lg text-primary"
+                className="pl-4 text-lg text-p"
               >
                 {item.title}
               </Link>

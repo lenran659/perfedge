@@ -11,7 +11,7 @@ const TocOuter = () => {
     <motion.div
       initial={{ opacity: 0, x: -100 }}
       animate={{ opacity: 1, x: 0 }}
-      className="flex flex-col gap-2 w-full h-full pl-12 overflow-scroll mt-14"
+      className="flex flex-col gap-2 w-full h-full pl-12 overflow-scroll mt-14 select-none"
     >
       {tocdata &&
         tocdata.map((item) => {
