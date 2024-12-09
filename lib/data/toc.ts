@@ -122,7 +122,7 @@ export const tocdata: Toc[] = [
         ],
     },
     {
-        title: "网络",
+        title: "网络优化",
         href: "/network",
         list: [
             {

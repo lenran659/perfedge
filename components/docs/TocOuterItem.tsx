@@ -17,12 +17,12 @@ interface TocOuterItemProps {
 const TocOuterItem: React.FC<TocOuterItemProps> = ({ title, href, list }) => {
   return (
     <div className="w-full flex flex-col gap-2">
-      <Link href={"docs" + href} className="font-bold text-primary text-2xl">
+      <Link href={"/docs" + href} className="font-bold text-primary text-2xl">
         {title}
       </Link>
       {list &&
         list.map((item, index) => {
-          return (       
+          return (
             <motion.span
               key={item.href}
               initial={{ opacity: 0, y: 20 }}
@@ -30,7 +30,7 @@ const TocOuterItem: React.FC<TocOuterItemProps> = ({ title, href, list }) => {
               transition={{ delay: index * 0.1 }}
             >
               <Link
-                href={"docs" + href + item.href}
+                href={"/docs" + href + item.href}
                 className="pl-4 text-lg text-primary"
               >
                 {item.title}

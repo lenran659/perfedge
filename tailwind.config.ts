@@ -12,9 +12,17 @@ export default {
         "primary": "#1a8194",
         "primary-dark": "#4b5ed7",
       },
+      typography: () => ({
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+          },
+        },
+      }),
     },
   },
   plugins: [
-    require('tailwindcss-textshadow')
+    require('tailwindcss-textshadow'),
+    require('@tailwindcss/typography'),
   ],
 } satisfies Config;
