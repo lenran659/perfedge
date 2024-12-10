@@ -77,7 +77,7 @@ const Header = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <Tippy content="搜索文档" placement="bottom" theme="light">
+            <Tippy content="Github" placement="bottom" theme="light">
               <Link
                 href={"https://github.com/minorcell/perfedge"}
                 target="_blank"

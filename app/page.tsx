@@ -47,7 +47,7 @@ const Home = () => {
         }}
         whileTap={{ scale: 0.9 }}
         whileHover={{ scale: 1.1, rotate: 45, x: -150, y: -100 }}
-        src="/logo.png"
+        src="/logo.webp"
         alt="logo"
         className="h-[50vh] w-auto z-10 cursor-pointer"
       />
@@ -118,7 +118,7 @@ const Home = () => {
             className="shadow-lg shadow-primary rounded-md"
           >
             <Link
-              href="https://github.com/minorcell/x-property"
+              href="https://github.com/minorcell/perfedge"
               target="_blank"
               className="text-xl bg-primary text-white flex items-center px-4 py-2 rounded-md hover:bg-primary-dark transition-colors duration-300"
             >
