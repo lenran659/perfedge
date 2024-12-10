@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+// import localFont from "next/font/local";
 
 import "./globals.css";
 import "tippy.js/dist/tippy.css";
 
-const glofont = localFont({
+/* const glofont = localFont({
   src: "/fonts/PingFang.ttf",
   display: "swap",
 });
-
+ */
 export const metadata: Metadata = {
   title: "PerfEdge | Web性能优化知识库",
   icons: {
@@ -24,8 +24,8 @@ interface RootLayoutProps {
 
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
-    <html lang="en" className={glofont.className}>
-      <body className={glofont.className}>{children}</body>
+    <html lang="en">
+      <body className="font-mono">{children}</body>
     </html>
   );
 };
