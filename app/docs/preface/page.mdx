@@ -18,8 +18,20 @@ import PageWarp from "@/components/docs/PageWarp";
 ## 使用方法【尽可能破环】
 
 为了能让读者能够体会到 Web 性能优化的重要性，我们在文档中插入了很多破环环节，你可以尝试破坏这些环节，看看会发生什么。
-**比如下面这个按钮，你可以尝试点击一下，看看会发生什么。**
+**比如下面这几个按钮，你可以依次点击一下，看看会发生什么。**
 
-<BlockButton />
+<BlockButton target={10} /> <BlockButton target={30} /> <BlockButton
+  target={40}
+/> <BlockButton target={50} />
+
+```js
+// 递归计算斐波那契数列，随着数列的增加，计算时间会指数级增加，当达到 45 时，页面甚至会崩溃。
+const fibonacci = (n: number): number => {
+  if (n <= 1) return n;
+  return fibonacci(n - 1) + fibonacci(n - 2);
+};
+```
+
+在后面的章节中，我们将会介绍如何优化这种耗时的计算，使页面能够更加流畅地运行。
 
 <PageWarp next="/preface/contribute" prev="/" />

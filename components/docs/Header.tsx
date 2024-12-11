@@ -4,16 +4,25 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import Tippy from "@tippyjs/react";
 import Link from "next/link";
-import { SquareArrowOutUpRight, Search, Github } from "lucide-react";
+import { SquareArrowOutUpRight, Search, Github, Smile } from "lucide-react";
 
 import SearchDocs from "@/components/docs/SearchDocs";
 
 const Header = () => {
   const [isSearch, setIsSearch] = useState(false);
+  const [isSmile, setIsSmile] = useState(false);
+
+  const handleShareClick = () => {
+    navigator.clipboard.writeText(location.href);
+    setIsSmile(true);
+    setTimeout(() => {
+      setIsSmile(false);
+    }, 2000);
+  };
 
   return (
     <>
-      <header className="flex items-center justify-between w-screen px-4 fixed top-0 h-14 backdrop-blur-sm z-50 ">
+      <header className="flex items-center justify-between w-screen px-4 fixed top-0 h-14 backdrop-blur-sm z-50">
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -62,12 +71,14 @@ const Header = () => {
             whileTap={{ scale: 0.9 }}
           >
             <Tippy content="分享当前文档" placement="bottom" theme="light">
-              <SquareArrowOutUpRight
-                className="text-primary w-6 h-6 cursor-pointer outline-none"
-                onClick={() => {
-                  navigator.clipboard.writeText(location.href);
-                }}
-              />
+              {isSmile ? (
+                <Smile className="text-primary w-6 h-6 cursor-pointer outline-none" />
+              ) : (
+                <SquareArrowOutUpRight
+                  className="text-primary w-6 h-6 cursor-pointer outline-none"
+                  onClick={handleShareClick}
+                />
+              )}
             </Tippy>
           </motion.span>
           <motion.span

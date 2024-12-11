@@ -17,15 +17,15 @@ export const tocdata: Toc[] = [
     },
     {
         title: "性能评判标准",
-        href: "/judgingCriteria",
+        href: "/judgingcriteria",
         list: [
             {
                 title: "分析工具",
-                href: "/analysisTools",
+                href: "/analysistools",
             },
             {
                 title: "直观感受",
-                href: "/intuitiveFeelings",
+                href: "/intuitivefeelings",
             },
         ],
     },

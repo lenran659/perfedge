@@ -31,10 +31,10 @@ const customComponents: MDXComponents = {
     </blockquote>
   ),
   pre: ({ children }) => (
-    <pre className="bg-gray-800 p-4 text-white">{children}</pre>
+    <pre className="bg-slate-200 p-4 shadow-md">{children}</pre>
   ),
   code: ({ children }) => {
-    return <code className="bg-gray-800 p-1 text-white">{children}</code>;
+    return <code className="bg-slate-200 p-1 text-black">{children}</code>;
   },
   img: ({ src, alt }) => (
     <img src={src} alt={alt} className="max-w-full rounded-lg w-96" />
