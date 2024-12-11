@@ -1,0 +1,151 @@
+import PageWarp from "@/components/docs/PageWarp";
+import { SearchInput } from "@/components/docs/uirendering/debounce_throttle/SearchInput";
+import { DebounceButton } from "@/components/docs/uirendering/debounce_throttle/DebounceButton";
+import { ScrollDemo } from "@/components/docs/uirendering/debounce_throttle/ScrollDemo";
+import { AutoSaveInput } from "@/components/docs/uirendering/debounce_throttle/AutoSaveInput";
+
+# JavaScript中的防抖(Debounce)和节流(Throttle)详解
+
+
+## 1. 概述
+
+在前端开发中，防抖（Debounce）和节流（Throttle）是两种常用防止函数被频繁调用导致性能问题的方法，高频率事件的触发会导致页面卡顿等副作用，所以我们引入了防抖和节流。但是其自身有时候也会有副作用，在使用之前需要谨慎考虑我们实现它之后的性能收益。
+### 大纲：
+
+- 1.概述
+- 2.防抖（Debounce）
+- 3.节流（Throttle）
+- 4.防抖和节流的区别
+- 5.防抖和节流的场景
+- 6.优化建议
+
+## 2. 防抖（Debounce）
+
+### 2.1 什么是防抖？
+
+防抖是指在事件被触发n秒后再执行回调，如果在这n秒内事件又被触发，则重新计时。
+
+### 2.2 适用场景
+
+- 搜索框输入查询（5.1.1）
+- 窗口大小调整（5.1.2）
+- 表单验证（5.1.3）
+- 按钮提交事件（5.1.4）
+
+
+### 2.3 实现代码
+```javascript
+function debounce(fn, delay) {
+    let timer = null;
+    return function (...args) {
+        if (timer) clearTimeout(timer);
+        timer = setTimeout(() => {
+            fn.apply(this, args);
+        }, delay);
+    }
+}
+
+// 使用示例
+const input = document.querySelector('input');
+input.addEventListener('input', debounce(function(e) {
+    console.log('搜索内容：', e.target.value);
+}, 500));
+```
+# 3.节流
+## 3.1 什么是节流？
+
+节流是指在一定时间内，只执行一次回调函数，如果在这段时间内事件又被触发，则重新计时。
+
+## 3.2 适用场景
+
+- 滚动事件
+- 窗口大小调整
+- 表单验证
+- 按钮提交事件
+
+## 3.3 实现代码
+
+```javascript
+function throttle(fn, delay) {
+    let lastTime = 0;
+    return function (...args) {
+        const now = Date.now();
+        if (now - lastTime >= delay) {
+            fn.apply(this, args);
+            lastTime = now;
+        }
+    }
+}
+
+// 使用示例
+window.addEventListener('scroll', throttle(function() {
+    console.log('页面滚动了');
+}, 1000));
+```
+# 4.防抖和节流的区别
+
+### 4.1 执行时机
+
+- 防抖：在事件触发后，延迟执行回调函数，如果在这段时间内事件又被触发，则重新计时。
+- 节流：在事件触发后，立即执行回调函数，如果在这段时间内事件又被触发，则不执行回调函数。
+
+
+### 4.2 应用场景对比
+```javascript
+// 防抖：适合最后一次执行的场景
+const debounceSearch = debounce(() => {
+    // 发起搜索请求
+}, 500);
+
+// 节流：适合有规律的持续执行场景
+const throttleScroll = throttle(() => {
+    // 检查页面滚动位置
+}, 1000);
+```
+
+# 5. 防抖和节流的场景
+
+## 5.1 防抖场景演示
+
+### 5.1.1 搜索框防抖
+在用户输入搜索关键词时，等待用户输入完成后再发送请求：
+
+<SearchInput />
+
+### 5.1.2 按钮点击防抖
+防止用户快速多次点击按钮导致重复提交：
+
+<DebounceButton target={1} />
+
+## 5.2 节流场景演示
+
+### 5.2.1 滚动事件节流
+在页面滚动时，控制回调函数的执行频率：
+
+<ScrollDemo />
+
+### 5.2.2 实时保存节流
+在用户输入时，控制自动保存的频率：
+
+<AutoSaveInput />
+
+# 6. 优化建议
+## 6.1 合理设置延迟时间
+- 防抖：建议300-500ms
+- 节流：根据实际场景通常500ms-1000ms
+## 6.2 注意内存泄漏
+```javascript
+// 在组件卸载时记得解除事件监听
+componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+}
+```
+## 6.3 避免过度使用
+- 只在必要时使用
+- 考虑性能收益是否值得
+
+
+
+
+<PageWarp next="debounce_throttle/debounce" prev="uirendering/page" />
+
