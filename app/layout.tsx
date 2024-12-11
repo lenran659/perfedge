@@ -19,7 +19,7 @@ interface RootLayoutProps {
 const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
   return (
     <html lang="en">
-      <body className="font-mono">{children}</body>
+      <body className="font-sans">{children}</body>
     </html>
   );
 };

@@ -2,6 +2,7 @@
 
 import Header from "@/components/docs/Header";
 import TocOuter from "@/components/docs/TocOuter";
+import MdxLayout from "@/components/mdx/mdx-layout";
 import { motion } from "motion/react";
 
 interface RootLayoutProps {
@@ -26,7 +27,7 @@ const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
           }}
           className="w-5/6 h-full p-4 overflow-y-auto px-12 py-24 prose"
         >
-          {children}
+          <MdxLayout>{children}</MdxLayout>
         </motion.article>
       </main>
     </div>
