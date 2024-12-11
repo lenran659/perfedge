@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { useState, useCallback } from "react";
+import { useState, useRef } from "react";
 import Button from "@/components/ui/Button";
 
 interface DebounceButtonProps {
@@ -12,7 +12,10 @@ export const DebounceButton: React.FC<DebounceButtonProps> = () => {
   const [debounceCount, setDebounceCount] = useState(0);
   const [loading, setLoading] = useState({ normal: false, debounce: false });
 
-  const debounce = <T extends (...args: unknown[]) => void>(fn: T, delay: number) => {
+  const debounce = <T extends (...args: unknown[]) => void>(
+    fn: T,
+    delay: number
+  ) => {
     let timer: NodeJS.Timeout;
     return (...args: Parameters<T>) => {
       if (timer) clearTimeout(timer);
@@ -20,33 +23,34 @@ export const DebounceButton: React.FC<DebounceButtonProps> = () => {
     };
   };
 
-  // 普通请求
+  const debouncedFnRef = useRef(
+    debounce(() => {
+      setLoading((prev) => ({ ...prev, debounce: true }));
+      setDebounceCount((prev) => prev + 1);
+      setTimeout(() => {
+        setLoading((prev) => ({ ...prev, debounce: false }));
+      }, 500);
+    }, 300)
+  );
+
   const handleNormalClick = () => {
-    setLoading(prev => ({ ...prev, normal: true }));
-    setNormalCount(prev => prev + 1);
+    setLoading((prev) => ({ ...prev, normal: true }));
+    setNormalCount((prev) => prev + 1);
     setTimeout(() => {
-      setLoading(prev => ({ ...prev, normal: false }));
+      setLoading((prev) => ({ ...prev, normal: false }));
     }, 500);
   };
 
-  // 防抖请求
-  const handleDebounceClick = useCallback(() => {
-    const debouncedFn = debounce(() => {
-      setLoading(prev => ({ ...prev, debounce: true }));
-      setDebounceCount(prev => prev + 1);
-      setTimeout(() => {
-        setLoading(prev => ({ ...prev, debounce: false }));
-      }, 500);
-    }, 300);
-    debouncedFn();
-  }, []);
+  const handleDebounceClick = () => {
+    debouncedFnRef.current();
+  };
 
   return (
     <div className="space-y-8">
       <div className="space-y-2">
         <h4 className="font-medium">无防抖按钮：</h4>
-        <Button 
-          type="primary" 
+        <Button
+          type="primary"
           onClick={handleNormalClick}
           disabled={loading.normal}
         >
@@ -57,8 +61,8 @@ export const DebounceButton: React.FC<DebounceButtonProps> = () => {
 
       <div className="space-y-2">
         <h4 className="font-medium">防抖按钮：</h4>
-        <Button 
-          type="primary" 
+        <Button
+          type="primary"
           onClick={handleDebounceClick}
           disabled={loading.debounce}
         >

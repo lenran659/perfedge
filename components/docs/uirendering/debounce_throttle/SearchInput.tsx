@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState, ChangeEvent } from "react";
 import { Input } from "@/components/ui/Input";
@@ -22,24 +22,21 @@ export const SearchInput = () => {
   // 普通搜索
   const handleNormalSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setNormalCount(prev => prev + 1);
+    setNormalCount((prev) => prev + 1);
     setNormalResults(`搜索结果: ${value}`);
   };
 
   // 防抖搜索
   const handleDebounceSearch = debounce((value: string) => {
-    setDebounceCount(prev => prev + 1);
+    setDebounceCount((prev) => prev + 1);
     setDebounceResults(`搜索结果: ${value}`);
   }, 500);
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-4 border rounded-md p-4 pt-0">
       <div className="space-y-2">
         <h4 className="font-medium">无防抖搜索：</h4>
-        <Input
-          placeholder="输入搜索内容"
-          onChange={handleNormalSearch}
-        />
+        <Input placeholder="输入搜索内容" onChange={handleNormalSearch} />
         <div className="text-sm text-gray-600">
           <div>API调用次数: {normalCount}</div>
           <div>{normalResults}</div>
@@ -59,4 +56,4 @@ export const SearchInput = () => {
       </div>
     </div>
   );
-}; 
+};
