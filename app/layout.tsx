@@ -1,14 +1,8 @@
 import type { Metadata } from "next";
-// import localFont from "next/font/local";
 
 import "./globals.css";
 import "tippy.js/dist/tippy.css";
 
-/* const glofont = localFont({
-  src: "/fonts/PingFang.ttf",
-  display: "swap",
-});
- */
 export const metadata: Metadata = {
   title: "PerfEdge | Web性能优化知识库",
   icons: {
