@@ -1,27 +1,39 @@
 "use client";
 
-import { motion } from "motion/react";
+import React from 'react';
 
-export interface ButtonProps {
+interface ButtonProps {
   children: React.ReactNode;
-  type?: "primary" | "error" | "default" | "warning";
   onClick?: () => void;
+  type?: 'primary' | 'secondary' | 'default';
+  className?: string;
+  disabled?: boolean;
 }
 
-const Button: React.FC<ButtonProps> = ({ children, type, onClick }) => {
+const Button: React.FC<ButtonProps> = ({
+  children,
+  onClick,
+  type = 'default',
+  className = '',
+  disabled = false
+}) => {
+  const baseStyles = 'px-4 py-2 rounded-md transition-colors';
+  const typeStyles = {
+    primary: 'bg-blue-500 text-white hover:bg-blue-600',
+    secondary: 'bg-gray-500 text-white hover:bg-gray-600',
+    default: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+  };
+
   return (
-    type && (
-      <motion.button
-        whileTap={{
-          scale: 0.95,
-        }}
-        transition={{ type: "spring" }}
-        className={`rounded-md px-4 py-2 text-sm font-medium text-white bg-${type} focus:outline-none focus:ring-2 focus:ring-${type}`}
-        onClick={onClick}
-      >
-        {children}
-      </motion.button>
-    )
+    <button
+      className={`${baseStyles} ${typeStyles[type]} ${className} ${
+        disabled ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
   );
 };
 
