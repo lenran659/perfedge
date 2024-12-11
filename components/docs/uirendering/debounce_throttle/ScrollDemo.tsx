@@ -45,7 +45,7 @@ export const ScrollDemo = () => {
   }, []);
 
   return (
-    <div className="space-y-4 border rounded-md p-4">
+    <div className="space-y-4 card">
       <div className="text-sm text-gray-600 space-y-1">
         <div>无节流触发次数: {normalCount}</div>
         <div>节流触发次数: {throttleCount}</div>

@@ -13,7 +13,7 @@ const BlockButton: React.FC<BlockButtonProps> = ({ target }) => {
   const fibonacci = (n: number): number => {
     if (n <= 1) return n;
     return fibonacci(n - 1) + fibonacci(n - 2);
-  }
+  };
 
   const handleClick = () => {
     setCount(fibonacci(target));
@@ -26,4 +26,15 @@ const BlockButton: React.FC<BlockButtonProps> = ({ target }) => {
   );
 };
 
-export default BlockButton;
+const BlockButtonGroup: React.FC = () => {
+  return (
+    <div className="flex justify-between card">
+      <BlockButton target={10} />
+      <BlockButton target={20} />
+      <BlockButton target={30} />
+      <BlockButton target={40} />
+    </div>
+  );
+};
+
+export default BlockButtonGroup;

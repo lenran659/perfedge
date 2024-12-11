@@ -32,7 +32,7 @@ export const AutoSaveInput = () => {
   }, []);
 
   return (
-    <div className="space-y-4 border rounded-md p-4 pt-0">
+    <div className="space-y-4 card pt-0">
       <div className="space-y-2">
         <h4 className="font-medium">无节流输入框：</h4>
         <Input placeholder="输入时实时保存" onChange={handleNormalInput} />

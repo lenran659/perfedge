@@ -46,7 +46,7 @@ export const DebounceButton: React.FC<DebounceButtonProps> = () => {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 card">
       <div className="space-y-2">
         <h4 className="font-medium">无防抖按钮：</h4>
         <Button
