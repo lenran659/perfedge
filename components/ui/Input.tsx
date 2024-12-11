@@ -6,12 +6,14 @@ interface InputProps {
   placeholder?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
+  value?: string;
 }
 
 export const Input: React.FC<InputProps> = ({ 
   placeholder, 
   onChange,
-  className = ''
+  className = '',
+  value
 }) => {
   return (
     <input
@@ -19,6 +21,7 @@ export const Input: React.FC<InputProps> = ({
       className={`w-full px-3 py-2 border rounded-md outline-none focus:ring-2 focus:ring-blue-500 ${className}`}
       placeholder={placeholder}
       onChange={onChange}
+      value={value}
     />
   );
 }; 

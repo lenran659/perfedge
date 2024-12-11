@@ -3,17 +3,19 @@
 import { useState, ChangeEvent } from "react";
 import { Input } from "@/components/ui/Input";
 
+type DebounceFn = (value: string) => void;
+
 export const SearchInput = () => {
   const [normalResults, setNormalResults] = useState<string>("");
   const [debounceResults, setDebounceResults] = useState<string>("");
   const [normalCount, setNormalCount] = useState(0);
   const [debounceCount, setDebounceCount] = useState(0);
 
-  const debounce = <T extends (...args: any[]) => void>(fn: T, delay: number) => {
+  const debounce = (fn: DebounceFn, delay: number): DebounceFn => {
     let timer: NodeJS.Timeout;
-    return (...args: Parameters<T>) => {
+    return (value: string) => {
       if (timer) clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), delay);
+      timer = setTimeout(() => fn(value), delay);
     };
   };
 

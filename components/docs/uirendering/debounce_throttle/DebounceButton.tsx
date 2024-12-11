@@ -12,7 +12,7 @@ export const DebounceButton: React.FC<DebounceButtonProps> = () => {
   const [debounceCount, setDebounceCount] = useState(0);
   const [loading, setLoading] = useState({ normal: false, debounce: false });
 
-  const debounce = <T extends (...args: any[]) => void>(fn: T, delay: number) => {
+  const debounce = <T extends (...args: unknown[]) => void>(fn: T, delay: number) => {
     let timer: NodeJS.Timeout;
     return (...args: Parameters<T>) => {
       if (timer) clearTimeout(timer);
@@ -30,16 +30,16 @@ export const DebounceButton: React.FC<DebounceButtonProps> = () => {
   };
 
   // 防抖请求
-  const handleDebounceClick = useCallback(
-    debounce(() => {
+  const handleDebounceClick = useCallback(() => {
+    const debouncedFn = debounce(() => {
       setLoading(prev => ({ ...prev, debounce: true }));
       setDebounceCount(prev => prev + 1);
       setTimeout(() => {
         setLoading(prev => ({ ...prev, debounce: false }));
       }, 500);
-    }, 300),
-    []
-  );
+    }, 300);
+    debouncedFn();
+  }, []);
 
   return (
     <div className="space-y-8">

@@ -66,7 +66,7 @@ export const AutoSaveInput = () => {
             </div>
           )}
           <div className="text-xs text-gray-400 mt-2">
-            提示：快速输入文字，观察"已保存内容"的更新频率
+            提示：快速输入文字，观察&quot;已保存内容&quot;的更新频率
           </div>
         </div>
       </div>
