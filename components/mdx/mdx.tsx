@@ -37,7 +37,7 @@ const customComponents: MDXComponents = {
     return <code className="bg-slate-200 p-1 text-black">{children}</code>;
   },
   img: ({ src, alt }) => (
-    <img src={src} alt={alt} className="max-w-full rounded-lg w-96" />
+    <img src={src} alt={alt} className="max-w-full rounded-lg h-96" />
   ),
 };
 
