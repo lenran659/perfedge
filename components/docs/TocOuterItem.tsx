@@ -11,17 +11,13 @@ interface TocOuterList {
 interface TocOuterItemProps {
   title: string;
   href: string;
-  list: TocOuterList[];
+  list?: TocOuterList[];
 }
 
-const TocOuterItem: React.FC<TocOuterItemProps> = ({
-  title,
-  href,
-  list,
-}) => {
+const TocOuterItem: React.FC<TocOuterItemProps> = ({ title, href, list }) => {
   return (
     <div className="w-full flex flex-col gap-2">
-      <Link href={"docs" + href} className="font-bold text-primary text-2xl">
+      <Link href={"/docs" + href} className="font-bold text-primary text-2xl">
         {title}
       </Link>
       {list &&
@@ -34,8 +30,8 @@ const TocOuterItem: React.FC<TocOuterItemProps> = ({
               transition={{ delay: index * 0.1 }}
             >
               <Link
-                href={"docs" + href + item.href}
-                className="pl-4 text-lg text-primary"
+                href={"/docs" + href + item.href}
+                className="pl-4 text-lg text-p"
               >
                 {item.title}
               </Link>
