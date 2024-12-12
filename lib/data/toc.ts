@@ -20,6 +20,10 @@ export const tocdata: Toc[] = [
         href: "/judgingcriteria",
         list: [
             {
+                title: "性能指标",
+                href: "/performanceindex",
+            },
+            {
                 title: "分析工具",
                 href: "/analysistools",
             },

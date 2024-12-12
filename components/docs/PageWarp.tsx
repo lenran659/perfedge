@@ -14,7 +14,7 @@ const PageWarp: React.FC<PageWarpProps> = ({ next, prev }) => {
           href={`/docs/${prev}`}
           className="text-sm font-bold text-primary hover:text-gray-700 py-2 rounded-md no-underline"
         >
-          上一页面
+          上一章节
         </Link>
       )}
       {next && (
@@ -22,7 +22,7 @@ const PageWarp: React.FC<PageWarpProps> = ({ next, prev }) => {
           href={`/docs/${next}`}
           className="text-sm font-bold text-primary hover:text-gray-700 py-2 rounded-md no-underline"
         >
-          下一页面
+          下一章节
         </Link>
       )}
     </div>

@@ -1,11 +1,5 @@
+import PageWarp from "@/components/docs/PageWarp";
 import FPandFCP from "@/components/docs/preface/analysistools/FPandFCP";
-
-# 目录
-
-1. 性能指标
-2. 性能分析工具
-
----
 
 # 性能指标
 
@@ -19,15 +13,6 @@ import FPandFCP from "@/components/docs/preface/analysistools/FPandFCP";
 
 ```js
 performance.getEntriesByType("paint")[0];
-
-/*
-{
-  name: "first-paint",
-  entryType: "paint",
-  startTime: 0.016000000000000002,
-  duration: 0
-}
- */
 ```
 
 #### 2. 首次内容绘制（First Contentful Paint，FCP）
@@ -40,20 +25,49 @@ performance.getEntriesByType("paint")[0];
 
 ```js
 performance.getEntriesByType("paint")[1];
-
-/*
-{
-  name: "first-contentful-paint",
-  entryType: "paint",
-  startTime: 0.016000000000000002,
-  duration: 0
-}
- */
 ```
 
 #### FP 和 FCP 的示例：
 
 > 根据 MDN 的解释，Paint Timing API 目前仍旧属于实验阶段，所以在浏览器兼容性上，会存在问题，不同的浏览器可能下面的示例展示结果不一样。
+
+我们使用如下代码进行检测 FP 和 FCP
+
+```tsx
+"use client";
+
+import { useEffect, useState } from "react";
+
+const FPandFCP: React.FC = () => {
+  const [paintInfo, setPaintInfo] = useState<PerformancePaintTiming[]>([]);
+
+  const fetchPaintTimings = (): PerformancePaintTiming[] => {
+    if (typeof window !== "undefined" && typeof performance !== "undefined") {
+      return performance.getEntriesByType("paint") as PerformancePaintTiming[];
+    }
+    return [];
+  };
+
+  useEffect(() => {
+    const paintTimings = fetchPaintTimings();
+    setPaintInfo(paintTimings);
+  }, []);
+
+  return (
+    <div className="card">
+      {paintInfo.length > 0 &&
+        paintInfo.map((paintTiming) => (
+          <p key={paintTiming.name}>
+            {paintTiming.name.toUpperCase()}: {paintTiming.startTime.toFixed(2)}{" "}
+            ms
+          </p>
+        ))}
+    </div>
+  );
+};
+
+export default FPandFCP;
+```
 
 <FPandFCP />
 
@@ -84,30 +98,6 @@ performance.getEntriesByType("paint")[1];
 
 **定义**：Speed Index 是一种衡量页面加载速度的指标，它通过计算页面加载过程中，页面内容的可见性变化来评估页面的加载速度。Speed Index 的值越小，页面的加载速度越快。
 
----
+下一章节，我们讲解如何使用一些现代化的工具来检测这些性能指标。
 
-# 性能分析工具
-
-> 前文讲到，性能分析是前端性能优化的第一步，那么如何进行性能分析呢？本文将介绍一些常用的性能分析工具。
-
-## Chrome DevTools
-
-Chrome DevTools 是 Chrome 浏览器自带的开发者工具，可以用来调试网页和进行性能分析。它提供了以下功能：
-
-![Chrome DevTools](/docs/judgingcriteria/devtools.png)
-
-- **元素检查**：可以查看和修改网页的 HTML 和 CSS 代码。这对于调试和优化网页样式非常有用。
-- **控制台**：可以查看网页的 JavaScript 错误和警告信息，也可以执行 JavaScript 代码。这对于调试和优化网页脚本非常有用。
-- **性能分析**：可以查看网页的性能数据，包括加载时间、渲染时间、内存使用情况等。这对于优化网页性能非常有用。
-- **网络**：可以查看网页的 HTTP 请求和响应信息，包括请求头、响应头、请求体、响应体等。这对于优化网页性能非常有用。
-- **LightHouse**：可以查看网页的 SEO 评分，包括页面加载时间、可访问性、性能、最佳实践、SEO 和 PWA。这对于优化网页 SEO 有帮助。
-- **内存**：可以查看网页的内存使用情况，包括 JavaScript 对象、DOM 节点、CSS 对象等。这对于优化网页内存使用非常有用。
-- ......
-
-以上只是 Chrome DevTools 的一部分功能，在 Web 开发中是经常使用的调试工具。我们主要来看一下**LightHouse**、**性能分析**和**网络**这三个功能。
-
-## LightHouse
-
-LightHouse 是 Chrome DevTools 中的一个插件，可以用来查看网页的 SEO 评分，包括页面加载时间、可访问性、性能、最佳实践、SEO 和 PWA。这对于优化网页 SEO 有帮助。
-
-> 我们先来看一个例子，就是 MDN：
+<PageWarp prev="judgingcriteria" />
