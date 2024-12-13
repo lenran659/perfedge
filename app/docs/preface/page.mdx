@@ -1,5 +1,6 @@
 import BlockButtons from "@/components/docs/preface/BlockButtons";
 import PageWarp from "@/components/docs/PageWarp";
+import QASelect from "@/components/qa/qaSelect";
 
 # 引言
 
@@ -9,6 +10,8 @@ import PageWarp from "@/components/docs/PageWarp";
 
 根据笔者理解总体上说，Web 的性能优化在两个方面，一方面是首页加载性能，另一方面是更新性能，从这两个指标看待性能优化很多问题都可以得到解决方案。再到具体细节上，性能优化可以从改变文件资源大小出发、可以从合理服务器部署出发、可以从浏览器内存管理出发、可以从优化线程出发、可以从优化 CSS 动画出发、可以从优化代码结构出发、也可以从优化加载算法出发等等，涉及到方方面面，是一个非常综合性的学科。
 
+---
+
 ## 知识库特色
 
 - **较为全面的性能优化知识**: 涵盖性能分析、静态资源优化、渲染优化、网络优化等多个方面。
@@ -16,6 +19,8 @@ import PageWarp from "@/components/docs/PageWarp";
 - **丰富的案例和工具**: 每个页面都有相关的案例和工具，可以帮助你更好地理解和实践性能优化。
 - **持续更新**: 性能优化是一个不断发展的领域，本文档会持续更新，以保持内容的时效性和准确性。
 - **适合初学者和进阶者**: 无论你是初学者还是进阶者，都可以在本文档中找到适合自己的内容。
+
+---
 
 ## 使用方法【尽可能破环】
 
@@ -33,5 +38,17 @@ const fibonacci = (n: number): number => {
 ```
 
 在后面的章节中，我们将会介绍如何优化这种耗时的计算，使页面能够更加流畅地运行。
+
+---
+
+## 测试
+
+<QASelect
+  question="上面第四个按钮结果是什么？"
+  options={["55", "6765", "832040", "102334155", "页面卡死了，没算出来。"]}
+  answer={3}
+  explanation="斐波那契数列的第40项是 102334155。如果页面卡死，后续章节讲讲述如何使用Web Work进行复杂计算场景优化。"
+/>
+---
 
 <PageWarp next="/preface/contribute" prev="/" />

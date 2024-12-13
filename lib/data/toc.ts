@@ -27,10 +27,6 @@ export const tocdata: Toc[] = [
                 title: "分析工具",
                 href: "/analysistools",
             },
-            {
-                title: "直观感受",
-                href: "/intuitivefeelings",
-            },
         ],
     },
     {

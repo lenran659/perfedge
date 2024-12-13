@@ -1,11 +1,14 @@
 import PageWarp from "@/components/docs/PageWarp";
 import FPandFCP from "@/components/docs/preface/analysistools/FPandFCP";
-
-![性能指标](/docs/judgingcriteria/lighthouse_index.png)
+import QASelect from "@/components/qa/qaSelect";
 
 # 性能指标
 
-所谓性能是指程序运行的速度，而前端性能是指页面的响应速度，性能指标都是以时间为单位来衡量的。
+> 所谓性能是指程序运行的速度，而前端性能是指页面的响应速度，性能指标都是以时间为单位来衡量的。
+
+![性能指标](/docs/judgingcriteria/lighthouse_index.png)
+
+---
 
 ## 常见的几个性能指标
 
@@ -96,10 +99,23 @@ export default FPandFCP;
 - 元素在页面动画过程中移动
 - ......
 
-#### 6. 可视化速度 (Speed Index, SI)
+#### 6. 页面加载速度 (Speed Index, SI)
 
 **定义**：Speed Index 是一种衡量页面加载速度的指标，它通过计算页面加载过程中，页面内容的可见性变化来评估页面的加载速度。Speed Index 的值越小，页面的加载速度越快。
 
 下一章节，我们讲解如何使用一些现代化的工具来检测这些性能指标。
+
+---
+
+## 测试
+
+<QASelect
+  question="下面哪个指标是衡量页面加载速度的指标？"
+  answer={3}
+  options={["FP", "FCP", "LCP", "SI"]}
+  explanation="Speed Index 是一种衡量页面加载速度的指标，它通过计算页面加载过程中，页面内容的可见性变化来评估页面的加载速度。Speed Index 的值越小，页面的加载速度越快。"
+/>
+
+---
 
 <PageWarp prev="judgingcriteria" next="judgingcriteria/analysistools" />

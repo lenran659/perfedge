@@ -1,8 +1,11 @@
 import PageWarp from "@/components/docs/PageWarp";
+import QASelect from "@/components/qa/qaSelect";
 
 # 性能分析工具
 
 > 前文讲到，性能分析是前端性能优化的第一步，那么如何进行性能分析呢？本文将介绍一些常用的性能分析工具。由于 Google Chrome 具有强大的 V8 引擎，以及对 Web 标准的支持比较友好，因此本站通篇案例多数将会使用 Chrome 浏览器进行演示。
+
+---
 
 ## Chrome DevTools
 
@@ -87,11 +90,17 @@ Chrome DevTools 的**网络**功能可以查看网页的 HTTP 请求和响应信
 
 > 是这样的，你甚至可以在这里拿到网页的代码，不过也不用担心，现代打包工具都是会进行一些代码压缩和丑化（除非你在开发阶段开启了镜像但是忘记关闭了），所以你看到的代码可能并不是你写的代码。
 
-## 总结
+---
 
-以上是几种常用的性能分析工具，它们可以帮助开发者了解网页的性能，并找到性能瓶颈。在实际开发中，开发者可以根据自己的需求和喜好选择合适的工具。
+## 测试
 
-<PageWarp
-  prev="judgingcriteria/performanceindex"
-  next="judgingcriteria/intuitivefeelings"
+<QASelect
+  question="WebPageTest在哪里使用？"
+  answer={2}
+  options={["Chrome DevTools", "LightHouse", "以上都不是"]}
+  explanation="WebPageTest 是一个在线的性能测试工具，可以用来测试网页的性能。官网地址：https://www.webpagetest.org/"
 />
+
+---
+
+<PageWarp prev="judgingcriteria/performanceindex" next="resource" />
