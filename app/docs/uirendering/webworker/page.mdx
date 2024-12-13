@@ -1,0 +1,62 @@
+import { WebWorkerDemo } from '@/components/docs/uirendering/webworker/WebWorkerDemo'
+
+# Web Worker 详解
+
+Web Worker 提供了在后台线程中运行脚本的能力,可以让我们执行耗时的计算而不会阻塞主线程的UI渲染。
+
+## Web Worker 基础概念
+
+Web Worker 是运行在后台的 JavaScript,完全独立于其他脚本,不会影响页面的性能。你可以继续做任何愿意做的事情：点击、选取内容等等,而此时 Web Worker 在后台运行。
+
+### 主要特点
+
+- 运行在独立线程中
+- 不能直接访问 DOM
+- 不能使用 window 对象的大多数方法和属性
+- 可以使用 XMLHttpRequest 进行网络请求
+- 可以使用 setTimeout/setInterval
+- 可以使用 importScripts() 导入其他脚本
+
+## 创建 Web Worker
+
+### 1. 创建 Worker 文件
+
+首先创建一个单独的文件来包含 worker 代码:
+```javascript
+// worker.js
+self.onmessage = function(e) {
+const result = heavyComputation(e.data);
+self.postMessage(result);
+}
+function heavyComputation(data) {
+// 执行耗时计算
+return result;
+}
+```
+
+### 2. 在主页面中创建 Worker
+
+```javascript
+const worker = new Worker('worker.js');
+worker.onmessage = function(e) {
+console.log('计算结果:', e.data);
+};
+worker.postMessage(inputData);
+```
+
+## Web Worker 性能对比示例
+
+让我们通过一个计算斐波那契数列的例子来对比使用和不使用 Web Worker 的性能差异：
+
+<WebWorkerDemo />
+
+这个示例展示了两个关键点：
+
+1. **性能对比**：
+   - 不使用 Worker 时，计算会阻塞主线程，UI 完全无法响应
+   - 使用 Worker 时，虽然计算时间可能相近，但主线程保持响应，用户可以继续交互
+
+2. **用户体验**：
+   - 通过"测试响应性"按钮，用户可以直观感受到在计算过程中的交互差异
+   - 不使用 Worker 时，按钮点击会在计算完成后才一次性响应
+   - 使用 Worker 时，按钮可以实时响应点击
