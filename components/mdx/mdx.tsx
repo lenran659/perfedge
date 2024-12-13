@@ -5,7 +5,7 @@ const customComponents: MDXComponents = {
     <img
       src={src}
       alt={alt}
-      className="max-w-full rounded-lg h-96 shadow border border-gray-300"
+      className="rounded-lg w-full shadow border border-gray-300"
     />
   ),
 };
