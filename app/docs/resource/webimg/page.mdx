@@ -1,0 +1,145 @@
+import WebImg from "@/components/docs/resource/WebImg";
+
+# Web 图片优化
+
+> 既然网络请求资源这么多，那我直接让资源更小不就完事了。一方面减轻服务器压力，另一方面减轻客户端请求压力。
+
+## 为什么要优化 Web 图片
+
+- **减少页面加载时间**：图片通常是网页中体积最大的资源，未优化的图片会延长页面加载时间，影响用户体验。
+- **提高性能指标**：较快的加载速度可以优化核心性能指标，如 FCP（首屏内容绘制）和 LCP（最大内容绘制）。
+- **节省带宽**：优化后的图片能减少网络传输的流量消耗，对用户和服务器都更友好。
+- **SEO 友好**：快速加载的网页会获得搜索引擎更高的评分，提升搜索排名。
+- **适配多终端**：优化图片能更好地适应移动设备和低速网络环境，提升普适性。
+
+---
+
+## 常见 Web 图片格式
+
+都来个示例，同一张图片不同格式，观察质量和大小。
+
+<WebImg />
+
+其中最后一个`Next Image`是 Next.js 提供的图片优化方案，可以自动优化图片大小和格式，支持懒加载等特性。在控制台我们可以看到，Next.js 会自动为图片生成不同尺寸的版本，并在浏览器中根据视口大小选择合适的版本进行加载。
+
+```html
+<img
+  alt="webp"
+  loading="lazy"
+  decoding="async"
+  data-nimg="1"
+  srcset="
+    /_next/image?url=%2Fdocs%2Fresource%2Fwebp_img.webp&amp;w=640&amp;q=75  1x,
+    /_next/image?url=%2Fdocs%2Fresource%2Fwebp_img.webp&amp;w=1080&amp;q=75 2x
+  "
+  src="/_next/image?url=%2Fdocs%2Fresource%2Fwebp_img.webp&amp;w=1080&amp;q=75"
+  style="color: transparent;"
+  ...
+/>
+```
+
+### 1. **位图格式**
+
+- **JPEG**:
+
+  - 优点：文件体积小，适用于照片和复杂色彩图片。
+  - 缺点：有损压缩，可能导致细节丢失。
+
+- **PNG**:
+
+  - 优点：支持透明背景，无损压缩，适合图标或细节丰富的图片。
+  - 缺点：文件体积较大，不适合较复杂的图片场景。
+
+- **GIF**:
+
+  - 优点：支持简单的动画和小体积文件。
+  - 缺点：颜色支持有限（最多 256 色），画质低。
+
+- **WebP**:
+
+  优点：文件体积小（比 JPEG 小 25%-35%），同时支持有损和无损压缩，适合现代 Web 环境。  
+  缺点：部分老旧浏览器可能不支持。
+
+### 2. **矢量图格式**
+
+- **SVG**:
+
+  - 优点：基于 XML 的矢量格式，缩放不失真，文件体积小，适合图标、Logo 和简单插图。
+  - 缺点：不适合复杂或高细节的图像。
+
+---
+
+## 图片的懒加载和预加载
+
+### 1. **懒加载（Lazy Loading）**
+
+- **原理**: 仅在图片即将进入用户视窗时才加载资源。
+- **实现方法**:
+  - 使用原生属性：`<img loading="lazy" src="image.jpg" alt="example">`
+  - 使用 JavaScript 实现：
+    ```javascript
+    const images = document.querySelectorAll("img[data-src]");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const img = entry.target;
+          img.src = img.dataset.src;
+          observer.unobserve(img);
+        }
+      });
+    });
+    images.forEach((img) => observer.observe(img));
+    ```
+
+### 2. **预加载（Preloading）**
+
+- **原理**: 在页面加载时优先加载关键图片（如首屏内容），减少用户等待时间。
+- **实现方法**:
+  - 使用 `<link>` 标签预加载：
+    ```html
+    <link rel="preload" as="image" href="example.jpg" />
+    ```
+  - 在 CSS 中定义背景图片时，也可以使用 preload：
+    ```html
+    <link rel="preload" as="image" href="background.jpg" />
+    ```
+
+---
+
+## 其他技巧
+
+### 1. **雪碧图（Sprite Image）**
+
+- **原理**: 将多个小图片合并成一张大图，通过 CSS 定位显示对应部分，减少 HTTP 请求数量。
+- **实现方式**:
+  - 创建雪碧图：
+    使用工具（如 Sprite Cow、TexturePacker）生成雪碧图。
+  - 使用 CSS 显示：
+    ```css
+    .icon {
+      background: url("sprite.png") no-repeat;
+    }
+    .icon-home {
+      background-position: 0 0;
+    }
+    .icon-search {
+      background-position: -50px 0;
+    }
+    ```
+
+### 2. **缩略图（Thumbnail）**
+
+- **原理**: 为较大的图片生成尺寸较小的缩略图，用于缩略展示，用户需要时才加载大图。
+- **实现方式**:
+  - 在服务端生成多个尺寸版本的图片，并在前端根据屏幕分辨率动态选择加载：
+    ```html
+    <picture>
+      <source srcset="image-small.jpg" media="(max-width: 600px)" />
+      <source srcset="image-large.jpg" media="(min-width: 601px)" />
+      <img src="image-default.jpg" alt="example" />
+    </picture>
+    ```
+
+---
+
+通过合理选择图片格式、懒加载与预加载策略，以及结合雪碧图与缩略图技术，能大幅提升网页图片的加载性能和用户体验。
