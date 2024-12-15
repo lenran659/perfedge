@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 
-const WebImg: React.FC = () => {
+const WebImgGroup: React.FC = () => {
   const images = [
     {
       src: "/docs/resource/jpg_img.jpg",
@@ -69,4 +69,4 @@ const WebImg: React.FC = () => {
   );
 };
 
-export default WebImg;
+export default WebImgGroup;
