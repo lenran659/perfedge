@@ -1,147 +1,249 @@
 import WebImg from "@/components/docs/resource/WebImgGroup";
+import PageWarp from "@/components/docs/PageWarp";
 
 # Web 图片优化
 
-> 既然网络请求资源这么多，那我直接让资源更小不就完事了。一方面减轻服务器压力，另一方面减轻客户端请求压力。
+> “资源太多？”你可能会想，“那干脆让它们更小点不就好了？”  
+> 嗯，确实，这听起来是个简单粗暴的好主意！既能减轻服务器压力，也能让用户不必为一个页面“等到天荒地老”。
 
-## 为什么要优化 Web 图片
+## 为什么要优化 Web 图片？
 
-- **减少页面加载时间**：图片通常是网页中体积最大的资源，未优化的图片会延长页面加载时间，影响用户体验。
-- **提高性能指标**：较快的加载速度可以优化核心性能指标，如 FCP（首屏内容绘制）和 LCP（最大内容绘制）。
-- **节省带宽**：优化后的图片能减少网络传输的流量消耗，对用户和服务器都更友好。
-- **SEO 友好**：快速加载的网页会获得搜索引擎更高的评分，提升搜索排名。
-- **适配多终端**：优化图片能更好地适应移动设备和低速网络环境，提升普适性。
+说到优化 Web 图片，不妨先问自己一个问题：在所有网页资源里，谁最“重”？答案毫无悬念：图片。
+
+图片这东西，有时候就像个无底洞，体积大得不像话。如果不做点优化，接下来可能会遇到这些问题：
+
+- **页面卡得让人抓狂**  
+  未优化的图片加载慢，用户甚至会怀疑人生，特别是网速慢的情况下。
+
+- **性能指标被虐得体无完肤**  
+  核心性能指标（如 FCP 和 LCP）直线下滑，浏览器和搜索引擎一起鄙视你。
+
+- **带宽流量悄悄溜走**  
+  用户的流量套餐哭了，服务器也不开心，毕竟流量费很贵。
+
+- **搜索排名跌到谷底**  
+  搜索引擎看重的是快！快！快！网页加载慢？不好意思，排名靠后排。
+
+- **移动设备瑟瑟发抖**  
+  小屏幕、低网速设备表示：大图杀手机到碗里来了。
+
+归根结底，优化图片，是为了性能、体验和钱包。
 
 ---
 
-## 常见 Web 图片格式
+## 常见的图片格式：该选谁？
 
-都来个示例，同一张图片不同格式，观察质量和大小。
+当我们聊到图片格式，脑海里可能会蹦出来一堆：JPEG、PNG、GIF、SVG……等等。  
+这么多选择，到底该选哪个？别急，我们一一拆解。
 
 <WebImg />
 
-其中最后一个`Next Image`是 Next.js 提供的图片优化方案，可以自动优化图片大小和格式，支持懒加载等特性。在控制台我们可以看到，Next.js 会自动为图片生成不同尺寸的版本，并在浏览器中根据视口大小选择合适的版本进行加载。
+### 1. **位图格式：传统但强大**
+
+- **JPEG**：
+
+  - 适合照片和复杂色彩图片。
+  - 有损压缩，但体积小、能应对大多数场景。
+  - 简单来说，适用性广，但可能稍微丢点细节。
+
+- **PNG**：
+
+  - 支持透明背景，细节丰富。
+  - 无损压缩，画质高。
+  - 缺点？当然有！文件体积大，不适合“拖网速”的场景。
+
+- **GIF**：
+
+  - 曾经风靡的格式，现在只能靠“小动画”苟活。
+  - 最多支持 256 色，画质很有限，适合简单的动态内容。
+
+- **WebP**：
+  - 现代网页的新宠，体积比 JPEG 小，画质还在线。
+  - 支持有损和无损压缩。
+  - 唯一的问题是：老旧浏览器不一定支持。
+
+### 2. **矢量图格式：无限缩放，无损压缩**
+
+- **SVG**：
+  - XML 定义的矢量图格式，可以任意缩放而不失真。
+  - 适合图标、Logo，但不适合照片等复杂内容。
+
+---
+
+## 懒加载 vs. 预加载：看似对立，实则互补
+
+如果说“懒加载”是图片加载中的佛系玩家，那么“预加载”就是个急性子——两者的目标完全不同。
+
+### 懒加载：你来，我再给
+
+懒加载的核心逻辑很简单：图片不滚到用户视野附近，我就不加载。想象一下，站在书架前的你，只有在需要某本书时，才去取，而不是一次性把所有书都搬回家。
+
+#### 懒加载实现示例：
 
 ```html
-<img
-  alt="webp"
-  loading="lazy"
-  decoding="async"
-  data-nimg="1"
-  srcset="
-    /_next/image?url=%2Fdocs%2Fresource%2Fwebp_img.webp&amp;w=640&amp;q=75  1x,
-    /_next/image?url=%2Fdocs%2Fresource%2Fwebp_img.webp&amp;w=1080&amp;q=75 2x
-  "
-  src="/_next/image?url=%2Fdocs%2Fresource%2Fwebp_img.webp&amp;w=1080&amp;q=75"
-  style="color: transparent;"
-  ...
-/>
+<body>
+  <div id="gallery">
+    <img data-src="example1.jpg" alt="Image 1" />
+    <img data-src="example2.jpg" alt="Image 2" />
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const images = document.querySelectorAll("img[data-src]");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.dataset.src;
+            observer.unobserve(img);
+          }
+        });
+      });
+
+      images.forEach((img) => observer.observe(img));
+    });
+  </script>
+</body>
 ```
 
-### 1. **位图格式**
+### 预加载：重要的，提前给
 
-- **JPEG**:
+懒加载的对立面是预加载，它的逻辑是：某些图片我不等你要，我先给你准备好。比如：首屏内容，页面打开的一瞬间，得尽可能快展示出来。
 
-  - 优点：文件体积小，适用于照片和复杂色彩图片。
-  - 缺点：有损压缩，可能导致细节丢失。
+#### 预加载实现示例：
 
-- **PNG**:
-
-  - 优点：支持透明背景，无损压缩，适合图标或细节丰富的图片。
-  - 缺点：文件体积较大，不适合较复杂的图片场景。
-
-- **GIF**:
-
-  - 优点：支持简单的动画和小体积文件。
-  - 缺点：颜色支持有限（最多 256 色），画质低。
-
-- **WebP**:
-
-  优点：文件体积小（比 JPEG 小 25%-35%），同时支持有损和无损压缩，适合现代 Web 环境。  
-  缺点：部分老旧浏览器可能不支持。
-
-### 2. **矢量图格式**
-
-- **SVG**:
-
-  - 优点：基于 XML 的矢量格式，缩放不失真，文件体积小，适合图标、Logo 和简单插图。
-  - 缺点：不适合复杂或高细节的图像。
+```html
+<link rel="preload" as="image" href="important-image.jpg" />
+```
 
 ---
 
-## 图片的懒加载和预加载
+## 图片压缩：既要瘦身，也要美貌
 
-### 1. **懒加载（Lazy Loading）**
+图片压缩是优化的关键环节之一，目的是在尽可能减小文件体积的同时，保留足够的画质。这是一种“瘦身不减貌”的艺术活儿。
 
-- **原理**: 仅在图片即将进入用户视窗时才加载资源。
-- **实现方法**:
-  - 使用原生属性：`<img loading="lazy" src="image.jpg" alt="example">`
-  - 使用 JavaScript 实现：
-    ```javascript
-    const images = document.querySelectorAll("img[data-src]");
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const img = entry.target;
-          img.src = img.dataset.src;
-          observer.unobserve(img);
-        }
-      });
-    });
-    images.forEach((img) => observer.observe(img));
-    ```
+### 有损压缩 vs. 无损压缩
 
-### 2. **预加载（Preloading）**
+- **有损压缩**：  
+  图片会通过丢弃部分细节来减小体积，适合对画质要求不高的场景，比如背景图、缩略图。常用工具有：
 
-- **原理**: 在页面加载时优先加载关键图片（如首屏内容），减少用户等待时间。
-- **实现方法**:
-  - 使用 `<link>` 标签预加载：
-    ```html
-    <link rel="preload" as="image" href="example.jpg" />
-    ```
-  - 在 CSS 中定义背景图片时，也可以使用 preload：
-    ```html
-    <link rel="preload" as="image" href="background.jpg" />
-    ```
+  - **TinyPNG**：支持 JPEG 和 PNG 格式，压缩效果显著。
+  - **Squoosh**：谷歌出品，功能强大，支持多种格式压缩。
+
+- **无损压缩**：  
+  保留图片所有信息，减少冗余数据，适合对画质要求高的场景，比如产品图、艺术图。常用工具有：
+  - **ImageOptim**：支持多种格式，特别适合 Mac 用户。
+  - **PNGGauntlet**：专注 PNG 格式的无损压缩。
+
+### 在线压缩工具推荐
+
+#### 1. **TinyPNG**
+
+TinyPNG 是一个流行的在线压缩工具，支持 JPEG 和 PNG 格式，通过智能优化算法大幅减少图片体积。
+
+- **优点**：操作简单，压缩率高。
+- **缺点**：免费版有图片数量限制。
+
+#### 2. **Squoosh**
+
+Squoosh 是谷歌出品的一款图片压缩神器，支持多种格式，并提供实时预览功能。
+
+- **功能亮点**：
+  - 支持 WebP、AVIF 等现代格式。
+  - 可调整压缩参数，精确控制画质和体积。
+
+#### 3. **Compressor.io**
+
+Compressor.io 提供有损和无损两种压缩模式，适合多种场景。
+
+- **特点**：
+  - 支持 JPEG、PNG、GIF 和 SVG 格式。
+  - 提供在线比较压缩前后的画质差异。
+
+### 批量压缩：批处理提升效率
+
+当需要处理大量图片时，推荐使用支持批量操作的工具：
+
+- **命令行工具**：
+
+  - **ImageMagick**：功能强大的开源工具，可实现格式转换、压缩、缩放等。
+  - **mozjpeg**：专注 JPEG 优化，能生成更小的文件。
+
+- **桌面工具**：
+  - **RIOT**：Windows 用户的最爱，支持批量压缩和质量预览。
+  - **Photopea**：类似在线版的 Photoshop，可处理多种图片压缩需求。
+
+### 压缩前后的对比
+
+为了直观感受压缩的效果，我们以一张图片为例，进行不同压缩方式的对比：
+
+| 压缩方式       | 文件大小（KB） | 画质评分（10 分制） |
+| -------------- | -------------- | ------------------- |
+| 未压缩         | 1024           | 10                  |
+| TinyPNG        | 512            | 9                   |
+| Squoosh (WebP) | 320            | 8.5                 |
+| ImageOptim     | 700            | 9.5                 |
+
+通过压缩，我们可以显著减小文件体积，同时保持较高的画质。
+
+### 自动化图片优化：CI/CD 集成
+
+为了节省开发时间，可以在项目中集成图片优化工具，自动完成压缩任务。以下是一个基于 Node.js 的示例：
+
+```javascript
+const imagemin = require("imagemin");
+const imageminWebp = require("imagemin-webp");
+const imageminPngquant = require("imagemin-pngquant");
+
+(async () => {
+  await imagemin(["images/*.{jpg,png}"], {
+    destination: "dist/images",
+    plugins: [
+      imageminWebp({ quality: 75 }),
+      imageminPngquant({ quality: [0.6, 0.8] }),
+    ],
+  });
+  console.log("图片压缩完成！");
+})();
+```
+
+在 CI/CD 管道中集成该脚本，可以在每次构建时对图片进行压缩。
 
 ---
 
-## 其他技巧
+## 其他优化技巧：细节里见真章
 
-### 1. **雪碧图（Sprite Image）**
+### 1. **雪碧图：一次请求，搞定一堆小图**
+
+雪碧图（Sprite Image）把多个小图合并到一张大图里，通过 CSS 定位展示不同部分。减少 HTTP 请求的数量，性能自然蹭蹭往上涨。
 
 ![sprite](/docs/resource/sprite.png)
 
-- **原理**: 将多个小图片合并成一张大图，通过 CSS 定位显示对应部分，减少 HTTP 请求数量。
-- **实现方式**:
-  - 创建雪碧图：
-    使用工具（如 Sprite Cow、TexturePacker）生成雪碧图。
-  - 使用 CSS 显示：
-    ```css
-    .icon {
-      background: url("sprite.png") no-repeat;
-    }
-    .icon-home {
-      background-position: 0 0;
-    }
-    .icon-search {
-      background-position: -50px 0;
-    }
-    ```
+> 当然这并不是一张雪碧图，很显然来自 window
 
-### 2. **缩略图（Thumbnail）**
+```css
+.icon {
+  background: url("sprite.png") no-repeat;
+}
+.icon-home {
+  background-position: 0 0;
+}
+```
 
-- **原理**: 为较大的图片生成尺寸较小的缩略图，用于缩略展示，用户需要时才加载大图。
-- **实现方式**:
-  - 在服务端生成多个尺寸版本的图片，并在前端根据屏幕分辨率动态选择加载：
-    ```html
-    <picture>
-      <source srcset="image-small.jpg" media="(max-width: 600px)" />
-      <source srcset="image-large.jpg" media="(min-width: 601px)" />
-      <img src="image-default.jpg" alt="example" />
-    </picture>
-    ```
+### 2. **缩略图：先小图，后大图**
+
+对于大图的场景，先加载一张缩略图，等用户点击或需要时，再加载高清大图。
+
+```html
+<picture>
+  <source srcset="image-small.jpg" media="(max-width: 600px)" />
+  <source srcset="image-large.jpg" media="(min-width: 601px)" />
+  <img src="image-default.jpg" alt="example" />
+</picture>
+```
 
 ---
 
-通过合理选择图片格式、懒加载与预加载策略，以及结合雪碧图与缩略图技术，能大幅提升网页图片的加载性能和用户体验。
+图片优化的核心，是在性能和视觉效果之间找到平衡。通过合理选择格式、懒加载、预加载，以及借助强大的压缩工具和自动化流程，你的网页性能将焕然一新！优化 Web 图片，不是“点一次按钮”那么简单，而是一套“组合拳”。合理选择图片格式，搭配懒加载、预加载，再加点小技巧，性能优化的世界就此打开了大门。
+
+<PageWarp next="resource/webfont" prev="resource" />
