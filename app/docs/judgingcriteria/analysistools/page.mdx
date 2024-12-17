@@ -1,5 +1,6 @@
 import PageWarp from "@/components/docs/PageWarp";
 import QASelect from "@/components/qa/qaSelect";
+import Reference from "@/components/docs/ReferenceList";
 
 # 性能分析工具
 
@@ -94,6 +95,31 @@ PS：开发阶段别忘了关闭调试镜像，否则线上也会暴露开发资
   answer={2}
   options={["Chrome DevTools", "LightHouse", "以上都不是"]}
   explanation="WebPageTest 是一个在线的性能测试工具，用于评估页面的加载性能。官网地址：https://www.webpagetest.org/"
+/>
+
+---
+
+<Reference
+  references={[
+    {
+      name: "WebPageTest",
+      url: "https://www.webpagetest.org/",
+      description:
+        "WebPageTest 是一个在线的性能测试工具，用于评估页面的加载性能。",
+    },
+    {
+      name: "LightHouse",
+      url: "https://developers.google.com/web/tools/lighthouse",
+      description:
+        "LightHouse 是一个开源的自动化工具，用于改进网络应用的质量。",
+    },
+    {
+      name: "Chrome DevTools",
+      url: "https://developer.chrome.com/docs/devtools/",
+      description:
+        "Chrome DevTools 是 Chrome 浏览器的开发者工具，用于调试和优化网页。",
+    },
+  ]}
 />
 
 ---
