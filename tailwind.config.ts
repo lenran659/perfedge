@@ -8,6 +8,9 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        demo: ['DemoFont', 'sans-serif'],
+      },
       colors: {
         "primary": "#1a8194",
         "primary-dark": "#4b5ed7",
