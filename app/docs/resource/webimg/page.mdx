@@ -116,6 +116,26 @@ import PageWarp from "@/components/docs/PageWarp";
 <link rel="preload" as="image" href="important-image.jpg" />
 ```
 
+### 优先级
+
+资源加载是有优先级的，预加载的图片会优先加载，从而加快首屏展示速度。比如说在 header 中嘛，一些字体、css 文件等等都可以通过设置 preload 来提升加载优先级。那么相应的图片也有优先级，比如首屏的图片，就应该优先加载。
+
+fetchpriority API 可以用来设置资源的加载优先级，比如：
+
+```html
+<img src="example.jpg" fetchpriority="high" />
+```
+
+```html
+<img src="example.jpg" fetchpriority="low" />
+```
+
+```html
+<img src="example.jpg" fetchpriority="auto" />
+```
+
+更多内容呢，可以参考 [Web Dev](https://web.dev/articles/fetch-priority?hl=zh-cn)。
+
 ---
 
 ## 图片压缩：既要瘦身，也要美貌
