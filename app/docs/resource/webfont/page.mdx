@@ -4,6 +4,7 @@ import {
 } from "@/components/docs/resource/WebFont";
 import PageWarp from "@/components/docs/PageWarp";
 import QASelect from "@/components/qa/qaSelect";
+import Reference from "@/components/docs/ReferenceList";
 
 # Web 字体优化
 
@@ -131,11 +132,16 @@ font.load().then(function () {
 />
 ---
 
-## 小结
-
-好啦，今天我们聊了 Web 字体优化的几个要点。要是你不重视字体加载，等到页面渲染慢，用户体验差，才想起字体文件的问题就太晚了。掌握了字体优化技巧，能大幅提升你网站的加载速度，让用户得到更顺畅的体验。记住，不要让字体加载成为性能的瓶颈，它可是你优化的“隐形杀手”！
-
-所以，赶紧在下次优化 Web 性能时，关注一下这些细节：使用小巧的字体文件，合理缓存，利用原生字体和预加载，做一个高效的 Web 开发者！
+<Reference
+  references={[
+    {
+      name: "优化网页字体",
+      url: "https://web.dev/learn/performance/optimize-web-fonts?continue=https%3A%2F%2Fweb.dev%2Flearn%2Fperformance&hl=zh-cn#article-https://web.dev/learn/performance/optimize-web-fonts&hl=zh-cn",
+      description:
+        "来自Web Dev，详细介绍了如何优化网页字体，包括字体预加载、字体子集化、字体缓存等策略。",
+    },
+  ]}
+/>
 
 ---
 
