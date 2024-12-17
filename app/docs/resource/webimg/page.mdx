@@ -1,5 +1,6 @@
 import WebImg from "@/components/docs/resource/WebImgGroup";
 import PageWarp from "@/components/docs/PageWarp";
+import Reference from "@/components/docs/ReferenceList";
 
 # Web 图片优化
 
@@ -115,6 +116,26 @@ import PageWarp from "@/components/docs/PageWarp";
 ```html
 <link rel="preload" as="image" href="important-image.jpg" />
 ```
+
+### 优先级
+
+资源加载是有优先级的，预加载的图片会优先加载，从而加快首屏展示速度。比如说在 header 中嘛，一些字体、css 文件等等都可以通过设置 preload 来提升加载优先级。那么相应的图片也有优先级，比如首屏的图片，就应该优先加载。
+
+fetchpriority API 可以用来设置资源的加载优先级，比如：
+
+```html
+<img src="example.jpg" fetchpriority="high" />
+```
+
+```html
+<img src="example.jpg" fetchpriority="low" />
+```
+
+```html
+<img src="example.jpg" fetchpriority="auto" />
+```
+
+更多内容呢，可以参考 [Web Dev](https://web.dev/articles/fetch-priority?hl=zh-cn)。
 
 ---
 
@@ -242,8 +263,20 @@ const imageminPngquant = require("imagemin-pngquant");
 </picture>
 ```
 
+图片优化的核心，是在性能和视觉效果之间找到平衡。通过合理选择格式、懒加载、预加载，以及借助强大的压缩工具和自动化流程，你的网页性能将焕然一新！优化 Web 图片，不是“点一次按钮”那么简单，而是一套“组合拳”。合理选择图片格式，搭配懒加载、预加载，再加点小技巧，性能优化的世界就此打开了大门。
+
 ---
 
-图片优化的核心，是在性能和视觉效果之间找到平衡。通过合理选择格式、懒加载、预加载，以及借助强大的压缩工具和自动化流程，你的网页性能将焕然一新！优化 Web 图片，不是“点一次按钮”那么简单，而是一套“组合拳”。合理选择图片格式，搭配懒加载、预加载，再加点小技巧，性能优化的世界就此打开了大门。
+<Reference
+  references={[
+    {
+      name: "图片效果",
+      url: "https://web.dev/learn/performance/image-performance?continue=https%3A%2F%2Fweb.dev%2Flearn%2Fperformance&hl=zh-cn#article-https://web.dev/learn/performance/image-performance&hl=zh-cn",
+      description: "Web Dev - 图片效果",
+    },
+  ]}
+/>
+
+---
 
 <PageWarp next="resource/webfont" prev="resource" />

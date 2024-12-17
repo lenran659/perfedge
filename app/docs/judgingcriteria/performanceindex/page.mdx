@@ -1,8 +1,9 @@
 import PageWarp from "@/components/docs/PageWarp";
 import FPandFCP from "@/components/docs/preface/analysistools/FPandFCP";
 import QASelect from "@/components/qa/qaSelect";
+import Reference from "@/components/docs/ReferenceList";
 
-### 性能指标
+# 性能指标
 
 > 性能这个话题，看似离我们很远，其实就在我们每天刷网页时的体验里。快一点还是慢一点，丝滑还是卡顿，全看这些性能指标的表现。
 
@@ -10,9 +11,9 @@ import QASelect from "@/components/qa/qaSelect";
 
 ---
 
-### 常见的几个性能指标
+## 常见的几个性能指标
 
-#### 1. 首次绘制（FP）
+### 1. 首次绘制（FP）
 
 **定义**：首次绘制是从页面加载开始，到浏览器首次把一个像素渲染到屏幕上的时间。  
 俗称“白屏时间”，回答了“用户点进来，多久不再是纯白背景？”这个关键问题。
@@ -23,7 +24,7 @@ performance.getEntriesByType("paint")[0];
 
 ---
 
-#### 2. 首次内容绘制（FCP）
+### 2. 首次内容绘制（FCP）
 
 **定义**：FCP 是页面上第一个有意义内容被渲染到屏幕的时间。包括：
 
@@ -37,7 +38,7 @@ performance.getEntriesByType("paint")[1];
 
 ---
 
-#### FP 和 FCP 示例
+### FP 和 FCP 示例
 
 > 注意：Paint Timing API 还在实验阶段，跨浏览器支持可能不同，实际数据也因浏览器而异。
 
@@ -83,7 +84,7 @@ export default FPandFCP;
 
 ---
 
-#### 3. 最大内容绘制（LCP）
+### 3. 最大内容绘制（LCP）
 
 **定义**：LCP 是指视口内最大内容（如大图或大块文本）的渲染时间。
 
@@ -95,13 +96,13 @@ export default FPandFCP;
 
 ---
 
-#### 4. 总阻塞时间（TBT）
+### 4. 总阻塞时间（TBT）
 
 **定义**：TBT 是从 FCP 到 LCP 之间，主线程被阻塞的时间总和。
 
 ---
 
-#### 5. 累积布局偏移（CLS）
+### 5. 累积布局偏移（CLS）
 
 **定义**：CLS 测量页面中意外元素移动的程度，比如：
 
@@ -110,13 +111,13 @@ export default FPandFCP;
 
 ---
 
-#### 6. 页面加载速度 (Speed Index, SI)
+### 6. 页面加载速度 (Speed Index, SI)
 
 **定义**：SI 是通过计算页面加载过程中内容的可见性变化，来评估页面加载速度的指标。值越小越快。
 
 ---
 
-### 测试
+## 测试
 
 <QASelect
   question="下面哪个指标是衡量页面加载速度的指标？"
@@ -127,8 +128,31 @@ export default FPandFCP;
 
 ---
 
-### 下一步
+<Reference
+  references={[
+    {
+      name: "MDN Web Docs",
+      url: "https://developer.mozilla.org/zh-CN/docs/Web/API/PerformancePaintTiming",
+      description: "MDN 中关于 PerformancePaintTiming 的详细说明",
+    },
+    {
+      name: "首次内容绘制（FCP）",
+      url: "https://developer.mozilla.org/zh-CN/docs/Glossary/First_contentful_paint",
+      description: "MDN 中关于首次内容绘制的详细说明",
+    },
+    {
+      name: "最大内容绘制（LCP）",
+      url: "https://web.dev/lcp/",
+      description: "Google Developers 中关于最大内容绘制的详细说明",
+    },
+    {
+      name: "总阻塞时间（TBT）",
+      url: "https://web.dev/tbt/",
+      description: "Google Developers 中关于总阻塞时间的详细说明",
+    },
+  ]}
+/>
 
-学会了性能指标，接下来我们将探索如何用现代工具检测这些数据，找到瓶颈！
+---
 
 <PageWarp prev="judgingcriteria" next="judgingcriteria/analysistools" />{" "}
