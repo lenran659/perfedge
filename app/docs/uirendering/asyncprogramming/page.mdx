@@ -1,0 +1,435 @@
+import PageWarp from "@/components/docs/PageWarp";
+import { SearchInput } from "@/components/docs/uirendering/debounce_throttle/SearchInput";
+import { DebounceButton } from "@/components/docs/uirendering/debounce_throttle/DebounceButton";
+import { ScrollDemo } from "@/components/docs/uirendering/debounce_throttle/ScrollDemo";
+import { AutoSaveInput } from "@/components/docs/uirendering/debounce_throttle/AutoSaveInput";
+
+
+import { QuestionAnswer } from "@/components/docs/uirendering/asyncprogramming/QuestionAnswer";
+import { AsyncButton } from "@/components/docs/uirendering/asyncprogramming/AsyncButton";
+import {AsyncConcurrency } from "@/components/docs/uirendering/asyncprogramming/AsyncConcurrency";
+
+# JavaScript中异步编程（Promise，async/await，定时器）的详解和优化应用场景
+
+## 前缀：
+- 1.浏览器中异步编程
+- 2.异步执行顺序（体验题）
+- 3.定时器模拟异步（体验题）
+
+## 1. 浏览器中异步编程
+
+（1）Web API：浏览器提供的Web API，如XMLHttpRequest、Fetch API用于网络请求，setTimeout、setInterval用于定时任务，都是异步的。<br />
+（2）事件监听：浏览器事件（如用户点击、键盘输入、页面加载等）通常通过事件监听器异步处理。<br />
+（3）服务工作线程（Service Workers）：运行在后台的脚本，可以拦截和处理网络请求，允许开发离线体验和推送通知等功能。<br />
+（4）Web Workers：允许运行脚本操作而不影响主线程，适用于执行复杂计算或大量数据处理的场景。<br />
+
+## 2. 异步执行顺序（体验题）
+
+```javascript
+console.log(1);
+setTimeout(() => {
+    console.log(2);
+}, 0);
+console.log(3);
+```
+
+<QuestionAnswer
+    options={
+        [
+        '1, 2, 3',
+        '1, 3, 2',
+        '3, 1, 2',
+        '3, 2, 1',
+    ]
+    }
+    explanation={`
+        1. console.log(1); 立即执行，打印数字 1。
+        2. setTimeout(() => { console.log(2); }, 0); 被调用，但回调函数不会立即执行，而是被放入事件队列中等待。
+        3. console.log(3); 立即执行，打印数字 3。
+        4. 当JavaScript主线程的当前任务执行完毕后，事件循环检查事件队列，发现有一个setTimeout 的回调函数等待执行，然后执行该回调函数，打印数字 2。
+    `}
+ />
+
+## 3. 定时器模拟异步（体验题）
+
+```javascript
+function asyncTask(callback) {
+    setTimeout(() => {
+        console.log('异步任务执行完成'); // 异步任务
+        callback && callback(); // 执行回调函数
+    }, 1000);
+}
+
+console.log('开始执行');
+asyncTask(() => {
+    console.log('异步任务回调执行');
+});
+console.log('结束执行');
+```
+
+<QuestionAnswer 
+    options={
+        [
+           '结束执行、开始执行、异步任务执行完成、异步任务回调执行',
+            '开始执行、结束执行、异步任务执行完成、异步任务回调执行',
+            '开始执行、结束执行、异步任务回调执行、异步任务执行完成',
+            '开始执行、异步任务执行完成、异步任务回调执行、结束执行',
+        ]
+    }
+    explanation={`
+        1. console.log('开始执行'); 立即执行，打印 “开始执行”。
+        2. asyncTask(() => { console.log('异步任务回调执行'); }); 被调用，但回调函数不会立即执行，而是会在 setTimeout 完成后执行。
+        3. console.log('结束执行'); 立即执行，打印 “结束执行”。
+        4. 在大约1000毫秒后，setTimeout 的回调函数执行，打印 “异步任务执行完成”。
+        5. 随后，asyncTask 的回调函数被调用，打印 “异步任务回调执行”。
+    `}
+/>
+
+## 大纲：
+
+- 1.概述
+- 2.异步编程仿写（定时器模拟异步）
+- 3.手写Promise（分析源码，Promise原型方法）
+- 4.语法糖（async/await）
+- 5.体验场景
+- 6.优化建议
+
+## 1. 概述
+
+异步编程是一种编程范式，它允许程序在执行某些可能需要较长时间的任务（如网络请求、文件读写、大量计算等）时，不会阻塞主线程的执行。在前端开发中，异步编程尤其重要，因为它可以确保用户界面的流畅性和响应性，避免长时间的操作导致界面卡顿。
+
+## 2. 异步编程仿写（定时器模拟异步）
+
+### 2.1 定时器你不知道的秘密？
+
+防抖是指在事件被触发n秒后再执行回调，如果在这n秒内事件又被触发，则重新计时。
+定时器在JavaScript中是一个常见的异步编程工具，它允许我们在指定的时间后执行某个函数。定时器有两种类型：setTimeout和setInterval。
+通常，我们使用setTimeout来模拟异步操作，例如在页面加载完成后执行某些操作，或者在用户输入完成后执行搜索等。
+并且节流和防抖也是基于定时器实现的。它可是你完成任务和提高自己必须要掌握的技能，是不可或缺的伙伴。
+
+### 2.2 实现代码
+```javascript
+// 模拟一个异步操作，返回一个Promise
+function fetchData() {
+  return new Promise((resolve, reject) => {
+    // 使用setTimeout来模拟网络延迟
+    setTimeout(() => {
+      // 假设这是从服务器返回的数据
+      const data = { message: '数据已加载' };
+      // 解决Promise并传递数据
+      resolve(data);
+    }, 2000); // 延迟2000毫秒（2秒）
+  });
+}
+
+// 使用模拟的异步操作并处理结果
+fetchData().then(data => {
+  console.log(data.message); // 2秒后输出: 数据已加载
+}).catch(error => {
+  console.error('发生错误:', error);
+});
+```
+
+# 3.手写Promise，分析源码
+
+## 3.1 什么是Promise？
+
+Promise 是 JavaScript 中用于表示异步操作最终完成或失败的对象。它是一个构造函数，提供了一种管理异步操作结果的方法，避免了传统的回调函数嵌套（也称为“回调地狱”）。
+
+## 3.2 手写Promise
+
+```javascript
+function Promise(executor) {
+    // 添加属性
+    this.PromiseSate = 'pending'
+    this.PromiseResult = null
+    // 声明属性
+    this.callbacks = []
+    // 保存实例对象的 this 的值
+    const self = this
+    // resolve函数
+    function resolve(data) {
+        // 判断状态
+        if (self.PromiseSate !== 'pending') {
+            return
+        }
+        // 1.修改对象的状态 (promiseState)
+        self.PromiseSate = 'fulfilled'
+        // 2.设置对象的值   (promiseResult)
+        self.PromiseResult = data
+        // 调用成功的回调函数
+        setTimeout(() => {
+            self.callbacks.forEach(item => {
+                item.onResolved(data)
+            })
+        });
+    }
+    // reject 函数
+    function reject(data) {
+        // 判断状态
+        if (self.PromiseSate !== 'pending') {
+            return
+        }
+        // 1.修改对象的状态 (promiseState)
+        self.PromiseSate = 'rejected'
+        // 2.设置对象的值   (promiseResult)
+        self.PromiseResult = data
+        // 调用成功的回调函数
+        setTimeout(() => {
+
+        });
+    }
+    try {
+        // 同步调用【执行器函数】
+        executor(resolve, reject)
+    } catch (error) {
+        // 修改 Promise 的对象状态为【失败】
+        reject(error)
+    }
+
+}
+
+// 添加 then 方法
+Promise.prototype.then = function (onResolved, onRejected) {
+    const self = this
+    // 判断回调函数参数
+    if (typeof onRejected !== 'function') {
+        onRejected = reason => {
+            throw reason
+        }
+    }
+    if (typeof onResolved !== 'function') {
+        onResolved = value => {
+            return value
+        }
+    }
+    // 返回一个新的 Promise 实例
+    return new Promise((resolve, reject) => {
+        // 封装函数
+        function callback(type) {
+            try {
+                // 获取回调函数的执行结果
+                let result = onResolved(self.PromiseResult)
+                // 判断
+                if (result instanceof Promise) {
+                    // 如果是 Promise 类型的对象
+                    result.then(v => {
+                        resolve(v)
+                    }, r => {
+                        reject(r)
+                    })
+                } else {
+                    // 结果的对象状态为成功
+                    resolve(result)
+                }
+            } catch (error) {
+                reject(error)
+            }
+        }
+        // 调用回调函数 promiseState
+        if (this.PromiseSate === 'fulfilled') {
+            setTimeout(() => {
+                callback(onResolved)
+            });
+        }
+        if (this.PromiseSate === 'rejected') {
+            setTimeout(() => {
+                callback(onRejected)
+            });
+        }
+        // 判断 pending 状态
+        if (this.PromiseSate === 'pending') {
+            // 保存回调函数
+            this.callbacks.push({
+                onResolved: function () {
+                    // console.log('success')
+                    callback(onResolved)
+                },
+                onRejected: function () {
+                    // console.log('error');
+                    callback(onRejected)
+                }
+            })
+        }
+    })
+}
+
+// 添加 catch 方法
+Promise.prototype.catch = function (onRejected) {
+    return this.then(undefined, onRejected)
+}
+
+// 添加 resolve 方法
+Promise.resolve = function (data) {
+    // 返回 Promise 对象
+    return new Promise((resolve, reject) => {
+        if (data instanceof Promise) {
+            // 如果是 Promise 类型的对象
+            data.then(v => {
+                resolve(v)
+            }, r => {
+                reject(r)
+            })
+        } else {
+            // 状态设置为成功
+            resolve(data)
+        }
+    })
+}
+
+// 添加 reject 方法
+Promise.reject = function (data) {
+    // 返回 Promise 对象
+    return new Promise((resolve, reject) => {
+        reject(data)
+    })
+}
+
+// 添加 all 方法
+Promise.all = function (promises) {
+    // 返回结果为 Promise 对象
+    return new Promise((resolve, reject) => {
+        let result = []
+        let count = 0
+        // 遍历数组
+        for (let i = 0; i < promises.length; i++) {
+            promises[i].then(v => {
+                count++
+                result[i] = v
+                if (count === promises.length) {
+                    resolve(result)
+                }
+            }, r => {
+                reject(r)
+            })
+        }
+    })
+}
+
+// 添加 race 方法
+Promise.race = function (promises) {
+    // 返回结果为 Promise 对象
+    return new Promise((resolve, reject) => {
+        // 遍历数组
+        for (let i = 0; i < promises.length; i++) {
+            promises[i].then(v => {
+                resolve(v)
+            }, r => {
+                reject(r)
+            })
+        }
+    })
+}
+
+// 这是一个简单的测试题，看完了可以试试哦！看您是否掌握完整
+let p = new Promise((resolve, reject) => {
+    resolve('ok')
+})
+let p1 = Promise.all('success')
+let p2 = Promise.all('Oh Yeah')
+
+let result = Promise.all([p, p1, p2])
+console.log(result)
+```
+
+知道各位看这个源码很累，但是这个对你想要了解性能优化知识很有帮助，也对你后面的学习很有帮助
+所以各位，有时间的话，可以看看这个源码，虽然有点长，但是对你很有帮助，对你工作也有帮助哦！
+
+## 3.3 实现代码（Promise应用）
+
+```javascript
+let promise = new Promise(function(resolve, reject) {
+  // 异步操作，比如异步请求或定时器
+  setTimeout(() => {
+    // 假设异步操作成功，调用resolve
+    resolve('成功获取数据');
+    // 如果操作失败，可以调用reject
+    // reject('数据获取失败');
+  }, 1000);
+});
+
+promise.then(function(value) {
+  // 当Promise被解决（fulfilled）时，这里的代码会执行
+  console.log(value); // 输出：成功获取数据
+}).catch(function(error) {
+  // 当Promise被拒绝（rejected）时，这里的代码会执行
+  console.log(error);
+});
+```
+
+# 4.语法糖（async/await）
+
+### 4.1 含义
+
+async 和 await 是 JavaScript 中用于处理异步操作的一对关键字，它们提供了一种更简洁、更易于阅读和编写的方式来进行异步编程，而无需使用传统的回调函数或链式 .then() 调用。
+
+### 4.2 async详解
+
+async 关键字用于声明一个异步函数。这意味着这个函数总是返回一个 Promise，无论函数体内部是否显式地返回了一个 Promise。
+如果函数返回一个非 Promise 的值，这个值会被自动包装在一个解决（resolved）的 Promise 中。
+
+```javascript
+async function asyncFunction() {
+  // 如果返回一个非Promise值，它会被自动包装成一个解决的Promise
+  return 'Hello, world!';
+}
+
+asyncFunction().then(value => console.log(value)); // 输出: Hello, world!
+```
+
+### 4.3 await详解
+await 关键字用于等待一个 Promise 完成。它只能在 async 函数内部使用。当 await 被用在某个表达式中时，它会暂停当前 async 函数的执行，直到等待的 Promise 被解决（resolved）或被拒绝（rejected）。
+如果 Promise 被解决，await 表达式的结果就是解决值；如果 Promise 被拒绝，它将抛出一个错误，可以通过 try...catch 语句捕获。
+
+```javascript
+async function asyncFunction() {
+  let value = await Promise.resolve('Hello, world!');
+  console.log(value); // 输出: Hello, world!
+}
+
+asyncFunction();
+```
+
+# 5. 体验场景
+
+## 5.1 定时器按钮发送请求，异步等待
+
+<AsyncButton target={1} />
+
+## 5.2 异步控制并发（优化）
+
+### 5.2.1 为什么要控制并发？
+
+- 请求过多，导致浏览器卡顿
+- 请求过多，导致服务器压力过大
+- API请求：许多API服务都有并发请求的限制，超出限制可能会导致请求被拒绝或账户被封禁。
+- 性能优化：过多的并发操作可能会导致竞争条件、死锁或其他同步问题，这会降低程序的执行效率。通过控制并发数，可以优化资源利用率和程序性能。
+
+<AsyncConcurrency />
+
+# 6. 优化建议
+
+## 6.1 使用现代的异步编程特性
+
+- 使用 async/await 而不是回调函数：async/await 提供了一种更接近同步代码的方式来编写异步代码，这使得代码更易读、更易维护。
+- 利用 Promise：确保你的异步函数返回 Promise，这样可以利用 .then(), .catch(), 和链式调用。
+
+## 6.2 并发控制
+
+- 限制并发请求数量：使用 Promise.all() 时，如果一次性发起太多请求，可能会导致内存问题。可以使用 p-limit 或其他库来限制并发执行的数量。
+- 使用 for...of 遍历异步迭代器：当处理异步迭代时，使用 for...of 可以更简洁地处理每个项。
+
+## 6.3 工具和库
+- 使用合适的库：例如 axios 用于 HTTP 请求，ramda 或 lodash 用于函数式编程，以及 async 或 bluebird 用于更高级的 Promise 控制。
+- 避免过度依赖：虽然库可以简化异步编程，但过度依赖可能会增加应用的复杂性和大小。
+
+## 6.4 避免过度使用
+
+- 只在必要时使用
+- 考虑性能收益是否值得
+
+
+
+
+<PageWarp next="uirendering/load" prev="uirendering/longlist" />
+
