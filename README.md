@@ -1,5 +1,7 @@
 # PerfEdge | 前端性能优化知识库
 
+> 插播一条紧急说明：由于近期维护本知识库的小伙伴们都陆陆续续找到了寒假实习，因此本知识库更新速度最近有些缓慢。
+
 ## 介绍
 
 ![logo](public/logo.png)
@@ -12,7 +14,7 @@ PerfEdge 是一个专注于前端性能优化的知识库，旨在帮助开发�
 
 ## 贡献
 
-欢迎提交 Pull Request 或 Issue，共同完善 PerfEdge 知识库。
+欢迎提交 Pull Request 或 Issue，共同完善 PerfEdge 知识。
 
 ## 许可
 
