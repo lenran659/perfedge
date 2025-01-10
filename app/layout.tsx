@@ -8,8 +8,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/logo.webp",
   },
-  description:
-    "PerfEdge，一个专注于体验 Web 性能优化的知识库，旨在帮助前端开发者更好地理解和使用前端性能优化技术，提高网站和应用的用户体验。",
+  description: "PerfEdge，一个专注于体验 Web 性能优化的知识库，旨在帮助前端开发者更好地理解和使用前端性能优化技术，提高网站和应用的用户体验。",
 };
 
 interface RootLayoutProps {

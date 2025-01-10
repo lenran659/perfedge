@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { ChangeEvent } from 'react';
+import { ChangeEvent } from "react";
 
 interface InputProps {
   placeholder?: string;
@@ -9,12 +9,7 @@ interface InputProps {
   value?: string;
 }
 
-export const Input: React.FC<InputProps> = ({ 
-  placeholder, 
-  onChange,
-  className = '',
-  value
-}) => {
+export const Input: React.FC<InputProps> = ({ placeholder, onChange, className = "", value }) => {
   return (
     <input
       type="text"
@@ -24,4 +19,4 @@ export const Input: React.FC<InputProps> = ({
       value={value}
     />
   );
-}; 
+};

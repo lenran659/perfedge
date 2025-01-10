@@ -45,10 +45,7 @@ const NotFound = () => {
         }}
         className="text-2xl flex gap-4"
       >
-        <Link
-          href="/"
-          className="mt-6 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark duration-300"
-        >
+        <Link href="/" className="mt-6 px-4 py-2 bg-primary text-white rounded hover:bg-primary-dark duration-300">
           返回首页
         </Link>
         <div

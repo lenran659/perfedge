@@ -32,9 +32,7 @@ const Home = () => {
   };
 
   return (
-    <main
-      className={`will-change-auto duration-300 select-none w-screen h-screen gap-24 flex justify-center items-center ${bg}`}
-    >
+    <main className={`will-change-auto duration-300 select-none w-screen h-screen gap-24 flex justify-center items-center ${bg}`}>
       <audio ref={audioRef} src="/audio/click.mp3"></audio>
       <motion.img
         onClick={handlePlay}

@@ -31,13 +31,7 @@ const Header = () => {
         >
           <Tippy content="退出" placement="bottom" theme="light">
             <Link href="/">
-              <motion.img
-                whileHover={{ scale: 1.1, rotate: 45 }}
-                whileTap={{ scale: 0.9 }}
-                src="/logo.svg"
-                alt="logo"
-                className="w-10 h-10"
-              />
+              <motion.img whileHover={{ scale: 1.1, rotate: 45 }} whileTap={{ scale: 0.9 }} src="/logo.svg" alt="logo" className="w-10 h-10" />
             </Link>
           </Tippy>
           <Tippy content="返回首页" placement="bottom" theme="light">
@@ -74,10 +68,7 @@ const Header = () => {
               {isSmile ? (
                 <Smile className="text-primary w-6 h-6 cursor-pointer outline-none" />
               ) : (
-                <SquareArrowOutUpRight
-                  className="text-primary w-6 h-6 cursor-pointer outline-none"
-                  onClick={handleShareClick}
-                />
+                <SquareArrowOutUpRight className="text-primary w-6 h-6 cursor-pointer outline-none" onClick={handleShareClick} />
               )}
             </Tippy>
           </motion.span>
@@ -89,10 +80,7 @@ const Header = () => {
             whileTap={{ scale: 0.9 }}
           >
             <Tippy content="Github" placement="bottom" theme="light">
-              <Link
-                href={"https://github.com/minorcell/perfedge"}
-                target="_blank"
-              >
+              <Link href={"https://github.com/minorcell/perfedge"} target="_blank">
                 <Github className="text-primary w-6 h-6 cursor-pointer outline-none" />
               </Link>
             </Tippy>

@@ -9,12 +9,7 @@ interface QASelectProps {
   options: string[];
   explanation?: string;
 }
-const QASelect: React.FC<QASelectProps> = ({
-  question,
-  answer,
-  options,
-  explanation,
-}) => {
+const QASelect: React.FC<QASelectProps> = ({ question, answer, options, explanation }) => {
   const [selected, setSelected] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState<boolean>(false);
 
@@ -59,11 +54,7 @@ const QASelect: React.FC<QASelectProps> = ({
           })}
         </div>
         {showExplanation && selected === answer && (
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-gray-100 p-2 rounded-lg text-gray-500"
-          >
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-gray-100 p-2 rounded-lg text-gray-500">
             <span className="font-bold mr-2 text-black">解释：</span>
             {explanation}
           </motion.p>
