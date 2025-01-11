@@ -1,24 +1,24 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import "highlight.js/styles/gml.css";
+@import 'highlight.js/styles/gml.css';
 
 * {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 *::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 .card {
-  @apply border p-4 rounded-md;
+    @apply rounded-md border p-4;
 }
 
 @font-face {
-  font-family: "DemoFont";
-  src: url("/fonts/DemoFont.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'DemoFont';
+    src: url('/fonts/DemoFont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
